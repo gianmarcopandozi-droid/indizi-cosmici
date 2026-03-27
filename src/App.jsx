@@ -210,7 +210,7 @@ export default function Landing() {
                 <label className="checkbox-row">
                   <input type="checkbox" checked={form.consenso_privacy} onChange={e => set("consenso_privacy", e.target.checked)} />
                   <span style={{ fontSize: 13, color: "#e8dcc8", opacity: .7, lineHeight: 1.5 }}>
-                    Acconsento al trattamento dei dati personali secondo la <span style={{ color: "#c9a96e", cursor: "pointer" }}>privacy policy</span>. *
+                    Acconsento al trattamento dei dati personali secondo la <a href="/privacy" target="_blank" style={{ color: "#c9a96e" }}>privacy policy</a>. *
                   </span>
                 </label>
               </div>
