@@ -1,0 +1,86 @@
+{
+  "ariete": [
+    "Il fuoco che cerchi è già nelle tue mani.",
+    "Il tuo coraggio non chiede permesso.",
+    "Cammina. Il resto ti viene incontro.",
+    "Sei stato fatto per iniziare.",
+    "Niente è perduto: tutto sta per cominciare."
+  ],
+  "toro": [
+    "Ciò che cresce lento, resta.",
+    "La tua presenza è una casa.",
+    "Hai il tempo. Hai radici.",
+    "La bellezza non ha fretta. Tu nemmeno.",
+    "Tutto torna a chi sa aspettare."
+  ],
+  "gemelli": [
+    "Le tue domande sono già una risposta.",
+    "Due voci, una direzione.",
+    "La curiosità è una forma di amore.",
+    "Sei un ponte. Stai dove serve.",
+    "Niente di quello che pensi è inutile."
+  ],
+  "cancro": [
+    "Quello che senti è vero, anche quando non sa spiegarsi.",
+    "Sei una casa per chi non l'ha trovata.",
+    "Le maree passano. Tu resti.",
+    "Ricordati: anche la luna ha le sue notti.",
+    "Sei stato amato più di quanto credi."
+  ],
+  "leone": [
+    "La tua luce non è una pretesa, è una presenza.",
+    "Sii visto. È un servizio, non un'arroganza.",
+    "Il tuo cuore conosce la strada.",
+    "Brilla. C'è chi ti sta cercando.",
+    "Non devi conquistare niente: sei già qui."
+  ],
+  "vergine": [
+    "Il tuo sguardo è una cura.",
+    "La perfezione non esiste. La presenza sì.",
+    "Hai già fatto abbastanza.",
+    "L'ordine che cerchi è dentro, non fuori.",
+    "Sei un dettaglio che cambia il quadro."
+  ],
+  "bilancia": [
+    "L'equilibrio non è fermo: è un respiro.",
+    "Scegli. Anche scegliere male è scegliere.",
+    "La bellezza che vedi è anche tua.",
+    "Sei stato fatto per gli incontri.",
+    "Non sei in mezzo: sei un centro."
+  ],
+  "scorpione": [
+    "Ciò che hai cercato a lungo, oggi cerca te.",
+    "La tua intensità è una mappa, non una colpa.",
+    "Trasformare è un mestiere antico. Lo conosci.",
+    "Niente è perduto: tutto ha radici.",
+    "Sei stato fatto per le verità sotto la pelle."
+  ],
+  "sagittario": [
+    "L'orizzonte è una promessa, non una pretesa.",
+    "Vai. Anche piano, vai.",
+    "Sei più libero di quanto ricordi.",
+    "Le strade sbagliate ti hanno fatto giusto.",
+    "Cerca. Trovare è la parte facile."
+  ],
+  "capricorno": [
+    "Hai costruito senza farti vedere. Si nota.",
+    "La pazienza è una forma di forza.",
+    "Le tue radici sono già montagne.",
+    "Rallenta. Sei in anticipo.",
+    "Sei stato fatto per le cose che durano."
+  ],
+  "acquario": [
+    "La tua stranezza è la tua misura.",
+    "Pensa diverso. È un dono, non un peso.",
+    "Sei in anticipo, non in errore.",
+    "Le tue idee servono a qualcuno che ancora non conosci.",
+    "Resta libero. È il tuo modo di amare."
+  ],
+  "pesci": [
+    "Quello che senti è un linguaggio. Imparalo.",
+    "Sei più antico di quanto ricordi.",
+    "Le tue intuizioni non chiedono prove.",
+    "Sogni svegli. Non è una distrazione: è un mestiere.",
+    "Tutto torna. Anche tu, a te stesso."
+  ]
+}

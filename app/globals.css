@@ -1,0 +1,23 @@
+@import "tailwindcss";
+
+@theme {
+  --color-notte-profonda: #18122B;
+  --color-viola-caldo: #2A1E4A;
+  --color-magenta-cosmico: #5D2C5A;
+  --color-oro-caldo: #D7A86E;
+  --color-rosa-polvere: #F1D8C9;
+  --color-panna-stellare: #FFF6E8;
+  --font-display: var(--font-cormorant), 'Cormorant Garamond', serif;
+  --font-body: var(--font-manrope), 'Manrope', system-ui, sans-serif;
+}
+
+html, body {
+  background: #18122B;
+  color: #FFF6E8;
+  font-family: var(--font-body);
+  -webkit-font-smoothing: antialiased;
+}
+
+.font-display {
+  font-family: var(--font-display);
+}
