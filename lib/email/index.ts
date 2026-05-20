@@ -1,8 +1,9 @@
 /**
  * Email wrapper provider-agnostic.
- * Oggi: Resend.
- * Domani: swappa lib/email/resend.ts con brevo.ts senza toccare i call site.
+ * Priorità: Brevo → Resend → devmode (file system).
+ * Swap di provider = solo questo file + l'adapter, zero call site da toccare.
  */
+import { sendViaBrevo, isBrevoConfigured } from './brevo';
 import { sendViaResend, isResendConfigured } from './resend';
 import { writeDevEmail } from './devmode';
 
@@ -17,10 +18,14 @@ export interface SendArgs {
 
 export interface SendResult {
   id: string;
-  provider: 'resend' | 'devmode';
+  provider: 'brevo' | 'resend' | 'devmode';
 }
 
 export async function sendTransactional(args: SendArgs): Promise<SendResult> {
+  if (isBrevoConfigured()) {
+    const id = await sendViaBrevo(args);
+    return { id, provider: 'brevo' };
+  }
   if (isResendConfigured()) {
     const id = await sendViaResend(args);
     return { id, provider: 'resend' };
