@@ -2,6 +2,9 @@ import { ImageResponse } from '@vercel/og';
 import { getAnonClient } from '@/lib/supabase-server';
 import { SEGNO_GLIFI, SEGNO_LABEL, COSTELLAZIONI, type Segno, SEGNI } from '@/lib/zodiac';
 import { renderWallpaperPNG } from '@/lib/wallpaper-svg';
+import { getAnimaleDataUri } from '@/lib/assets';
+import { ANIMALE_LABEL } from '@/lib/animali';
+import sharp from 'sharp';
 
 export const runtime = 'nodejs';
 export const dynamic = 'force-dynamic';
@@ -73,9 +76,22 @@ export async function GET(
     dedicato_a: sg.dedicato_a ?? undefined
   };
 
-  // Tentativo Satori
+  const animaleUri = getAnimaleDataUri(opts.segno);
+
+  // Satori: layout animale (orizzontale dedicato) se asset disponibile, altrimenti glifo.
   try {
-    return await renderSatoriOg(opts);
+    const img = animaleUri
+      ? await renderAnimaleOg(opts, animaleUri)
+      : await renderSatoriOg(opts);
+    const png = Buffer.from(await img.arrayBuffer());
+    const jpg = await sharp(png).jpeg({ quality: 86, mozjpeg: true }).toBuffer();
+    return new Response(new Uint8Array(jpg), {
+      status: 200,
+      headers: {
+        'content-type': 'image/jpeg',
+        'cache-control': 'public, max-age=3600, s-maxage=86400'
+      }
+    });
   } catch (err) {
     console.warn('[og] Satori fallito, fallback sharp:', err);
   }
@@ -93,6 +109,86 @@ export async function GET(
     console.error('[og] anche sharp fallito:', err);
     return new Response('Render error', { status: 500 });
   }
+}
+
+async function renderAnimaleOg(
+  opts: { nome: string; segno: Segno; mantra: string; dedicato_a?: string },
+  dataUri: string
+): Promise<Response> {
+  const { nome, segno, mantra, dedicato_a } = opts;
+  const segnoLabel = SEGNO_LABEL[segno].toUpperCase();
+  const animaleLabel = ANIMALE_LABEL[segno];
+  // immagine 9:16 contenuta in altezza: 630 * (1080/1920) ≈ 354
+  const imgW = Math.round(H * (1080 / 1920));
+  const imgLeft = W - imgW;
+
+  return new ImageResponse(
+    (
+      <div
+        style={{
+          width: W,
+          height: H,
+          display: 'flex',
+          position: 'relative',
+          background: 'linear-gradient(135deg, #18122B 0%, #2A1E4A 60%, #5D2C5A 100%)',
+          fontFamily: 'serif'
+        }}
+      >
+        {/* Animale a destra (intero, no crop) */}
+        {/* eslint-disable-next-line @next/next/no-img-element */}
+        <img
+          src={dataUri}
+          alt=""
+          width={imgW}
+          height={H}
+          style={{ position: 'absolute', top: 0, left: imgLeft, width: imgW, height: H, objectFit: 'cover' }}
+        />
+        {/* Sfuma il bordo sinistro dell'immagine nel fondo */}
+        <div
+          style={{
+            position: 'absolute',
+            top: 0,
+            left: imgLeft - 180,
+            width: 360,
+            height: H,
+            display: 'flex',
+            background: 'linear-gradient(90deg, #18122B 0%, rgba(24,18,43,0) 100%)'
+          }}
+        />
+
+        {/* Testo a sinistra */}
+        <div style={{ position: 'absolute', left: 80, top: 110, display: 'flex', fontSize: 16, color: '#D7A86E', letterSpacing: 6, fontFamily: 'sans-serif' }}>
+          · INDIZI COSMICI ·
+        </div>
+        <div style={{ position: 'absolute', left: 80, top: 150, display: 'flex', fontSize: 64, color: '#FFF6E8', fontFamily: 'serif' }}>
+          {nome}
+        </div>
+        <div style={{ position: 'absolute', left: 80, top: 240, display: 'flex', fontSize: 18, color: '#D7A86E', letterSpacing: 5, fontFamily: 'sans-serif' }}>
+          {segnoLabel}
+        </div>
+        <div style={{ position: 'absolute', left: 80, top: 274, display: 'flex', fontSize: 22, color: '#F1D8C9', fontStyle: 'italic', fontFamily: 'serif' }}>
+          Spirito Guida: {animaleLabel}
+        </div>
+        {dedicato_a ? (
+          <div style={{ position: 'absolute', left: 80, top: 312, display: 'flex', fontSize: 14, color: '#F1D8C9', letterSpacing: 4, fontFamily: 'sans-serif' }}>
+            DEDICATO A {dedicato_a.toUpperCase()}
+          </div>
+        ) : null}
+        <div style={{ position: 'absolute', left: 80, top: dedicato_a ? 350 : 326, width: 30, height: 2, background: '#D7A86E', opacity: 0.6, display: 'flex' }} />
+        <div style={{ position: 'absolute', left: 80, top: dedicato_a ? 376 : 352, width: 560, display: 'flex', fontSize: 26, fontStyle: 'italic', color: '#FFF6E8', fontFamily: 'serif', lineHeight: 1.35 }}>
+          « {mantra} »
+        </div>
+        <div style={{ position: 'absolute', left: 80, bottom: 40, display: 'flex', fontSize: 13, color: '#D7A86E', letterSpacing: 6, fontFamily: 'sans-serif' }}>
+          indizicosmici.it
+        </div>
+      </div>
+    ),
+    {
+      width: W,
+      height: H,
+      headers: { 'cache-control': 'public, max-age=3600, s-maxage=86400' }
+    }
+  );
 }
 
 async function renderSatoriOg(opts: {

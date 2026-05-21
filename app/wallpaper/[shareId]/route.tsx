@@ -4,6 +4,7 @@ import { SEGNO_GLIFI, SEGNO_LABEL, COSTELLAZIONI, type Segno, SEGNI } from '@/li
 import { renderWallpaperPNG } from '@/lib/wallpaper-svg';
 import { getAnimaleDataUri } from '@/lib/assets';
 import { ANIMALE_LABEL } from '@/lib/animali';
+import sharp from 'sharp';
 
 // Service role NON serve qui: read-only spirit_guides ha policy anon.
 // Node runtime per disporre di sharp come fallback.
@@ -80,12 +81,21 @@ export async function GET(
 
   const animaleUri = getAnimaleDataUri(opts.segno);
 
-  // Tentativo Satori — layout animale se asset disponibile, altrimenti glifo
+  // Tentativo Satori — layout animale se asset disponibile, altrimenti glifo.
+  // Output ricompresso in JPEG (il PNG di Satori con foto pesa troppo per email/download).
   try {
     const img = animaleUri
       ? await renderAnimale(opts, animaleUri)
       : await renderGlifo(opts);
-    return img;
+    const png = Buffer.from(await img.arrayBuffer());
+    const jpg = await sharp(png).jpeg({ quality: 86, mozjpeg: true }).toBuffer();
+    return new Response(new Uint8Array(jpg), {
+      status: 200,
+      headers: {
+        'content-type': 'image/jpeg',
+        'cache-control': 'public, max-age=3600, s-maxage=86400'
+      }
+    });
   } catch (err) {
     console.warn('[wallpaper] Satori fallito, fallback sharp:', err);
   }
@@ -126,7 +136,7 @@ async function renderAnimale(
           fontFamily: 'serif'
         }}
       >
-        {/* eslint-disable-next-line @next/next/no-img-element, jsx-a11y/alt-text */}
+        {/* eslint-disable-next-line @next/next/no-img-element */}
         <img
           src={dataUri}
           alt=""
@@ -135,16 +145,17 @@ async function renderAnimale(
           style={{ position: 'absolute', top: 0, left: 0, width: W, height: H, objectFit: 'cover' }}
         />
 
-        {/* Gradiente alto: attenua le corna nella zona ora/notch del lock screen */}
+        {/* Gradiente alto: copre la zona ora/notch del lock screen (l'ora resta su fondo scuro) */}
         <div
           style={{
             position: 'absolute',
             top: 0,
             left: 0,
             width: W,
-            height: 480,
+            height: 640,
             display: 'flex',
-            background: 'linear-gradient(180deg, rgba(24,18,43,0.82) 0%, rgba(24,18,43,0) 100%)'
+            background:
+              'linear-gradient(180deg, rgba(24,18,43,0.95) 0%, rgba(24,18,43,0.72) 38%, rgba(24,18,43,0) 100%)'
           }}
         />
 
