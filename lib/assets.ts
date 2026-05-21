@@ -5,14 +5,59 @@
  *
  * Questo permette di sostituire un asset master senza toccare il codice.
  */
-import { existsSync } from 'fs';
+import { existsSync, readFileSync } from 'fs';
 import { join } from 'path';
 import type { Segno } from './zodiac';
+import { ANIMALI_DISPONIBILI } from './animali';
 
 const ROOT = join(process.cwd(), 'public');
 
 function exists(rel: string): boolean {
   try { return existsSync(join(ROOT, rel)); } catch { return false; }
+}
+
+const ANIMALE_EXTS: Array<[string, string]> = [
+  ['png', 'image/png'],
+  ['jpg', 'image/jpeg'],
+  ['jpeg', 'image/jpeg'],
+  ['webp', 'image/webp']
+];
+
+/**
+ * Ritorna l'illustrazione animale del segno come data URI (per <img> in Satori),
+ * oppure null se non esiste alcun file. Solo immagini raster vere — nessun SVG finto.
+ */
+export function getAnimaleDataUri(segno: Segno): string | null {
+  for (const [ext, mime] of ANIMALE_EXTS) {
+    const rel = `assets/animali/${segno}.${ext}`;
+    if (exists(rel)) {
+      try {
+        const buf = readFileSync(join(ROOT, rel));
+        return `data:${mime};base64,${buf.toString('base64')}`;
+      } catch {
+        return null;
+      }
+    }
+  }
+  return null;
+}
+
+/**
+ * Animale da usare per un segno: il suo se disponibile, altrimenti un fallback
+ * tra i 3 pronti (deterministico per segno). Ritorna { dataUri, segnoUsato } o null.
+ */
+export function getAnimaleConFallback(
+  segno: Segno
+): { dataUri: string; segnoUsato: Segno } | null {
+  const diretto = getAnimaleDataUri(segno);
+  if (diretto) return { dataUri: diretto, segnoUsato: segno };
+  if (ANIMALI_DISPONIBILI.length === 0) return null;
+  // fallback deterministico: hash semplice del nome segno → indice
+  let h = 0;
+  for (let i = 0; i < segno.length; i++) h = (h * 31 + segno.charCodeAt(i)) >>> 0;
+  const pick = ANIMALI_DISPONIBILI[h % ANIMALI_DISPONIBILI.length];
+  const fb = getAnimaleDataUri(pick);
+  return fb ? { dataUri: fb, segnoUsato: pick } : null;
 }
 
 export function getBackground(): string {

@@ -1,7 +1,9 @@
 import { ImageResponse } from '@vercel/og';
-import { getAnonClient } from '@/lib/supabase-server';
+import { getAnonClient, } from '@/lib/supabase-server';
 import { SEGNO_GLIFI, SEGNO_LABEL, COSTELLAZIONI, type Segno, SEGNI } from '@/lib/zodiac';
 import { renderWallpaperPNG } from '@/lib/wallpaper-svg';
+import { getAnimaleDataUri } from '@/lib/assets';
+import { ANIMALE_LABEL } from '@/lib/animali';
 
 // Service role NON serve qui: read-only spirit_guides ha policy anon.
 // Node runtime per disporre di sharp come fallback.
@@ -76,9 +78,13 @@ export async function GET(
     dedicato_a: sg.dedicato_a ?? undefined
   };
 
-  // Tentativo Satori
+  const animaleUri = getAnimaleDataUri(opts.segno);
+
+  // Tentativo Satori — layout animale se asset disponibile, altrimenti glifo
   try {
-    const img = await renderSatori(opts);
+    const img = animaleUri
+      ? await renderAnimale(opts, animaleUri)
+      : await renderGlifo(opts);
     return img;
   } catch (err) {
     console.warn('[wallpaper] Satori fallito, fallback sharp:', err);
@@ -100,7 +106,111 @@ export async function GET(
   }
 }
 
-async function renderSatori(opts: {
+async function renderAnimale(
+  opts: { nome: string; segno: Segno; mantra: string; dedicato_a?: string },
+  dataUri: string
+): Promise<Response> {
+  const { nome, segno, mantra, dedicato_a } = opts;
+  const segnoLabel = SEGNO_LABEL[segno].toUpperCase();
+  const animaleLabel = ANIMALE_LABEL[segno];
+
+  return new ImageResponse(
+    (
+      <div
+        style={{
+          width: W,
+          height: H,
+          display: 'flex',
+          position: 'relative',
+          background: '#18122B',
+          fontFamily: 'serif'
+        }}
+      >
+        {/* eslint-disable-next-line @next/next/no-img-element, jsx-a11y/alt-text */}
+        <img
+          src={dataUri}
+          alt=""
+          width={W}
+          height={H}
+          style={{ position: 'absolute', top: 0, left: 0, width: W, height: H, objectFit: 'cover' }}
+        />
+
+        {/* Gradiente alto: attenua le corna nella zona ora/notch del lock screen */}
+        <div
+          style={{
+            position: 'absolute',
+            top: 0,
+            left: 0,
+            width: W,
+            height: 480,
+            display: 'flex',
+            background: 'linear-gradient(180deg, rgba(24,18,43,0.82) 0%, rgba(24,18,43,0) 100%)'
+          }}
+        />
+
+        {/* Gradiente basso: leggibilità del testo */}
+        <div
+          style={{
+            position: 'absolute',
+            bottom: 0,
+            left: 0,
+            width: W,
+            height: 1000,
+            display: 'flex',
+            background:
+              'linear-gradient(0deg, rgba(24,18,43,0.97) 0%, rgba(24,18,43,0.88) 32%, rgba(24,18,43,0) 100%)'
+          }}
+        />
+
+        {/* Tag */}
+        <div style={{ position: 'absolute', top: 1180, width: W, display: 'flex', justifyContent: 'center', color: '#D7A86E', fontSize: 18, letterSpacing: 8, fontFamily: 'sans-serif' }}>
+          · IL TUO SPIRITO GUIDA ·
+        </div>
+
+        {/* Nome */}
+        <div style={{ position: 'absolute', top: 1218, width: W, display: 'flex', justifyContent: 'center', color: '#FFF6E8', fontSize: 96, fontFamily: 'serif' }}>
+          {nome}
+        </div>
+
+        {/* Segno */}
+        <div style={{ position: 'absolute', top: 1352, width: W, display: 'flex', justifyContent: 'center', color: '#D7A86E', fontSize: 22, letterSpacing: 7, fontFamily: 'sans-serif' }}>
+          {segnoLabel}
+        </div>
+
+        {/* Animale label */}
+        <div style={{ position: 'absolute', top: 1392, width: W, display: 'flex', justifyContent: 'center', color: '#F1D8C9', fontSize: 26, fontStyle: 'italic', fontFamily: 'serif' }}>
+          {animaleLabel}
+        </div>
+
+        {dedicato_a ? (
+          <div style={{ position: 'absolute', top: 1438, width: W, display: 'flex', justifyContent: 'center', color: '#F1D8C9', fontSize: 16, letterSpacing: 4, fontFamily: 'sans-serif' }}>
+            DEDICATO A {dedicato_a.toUpperCase()}
+          </div>
+        ) : null}
+
+        {/* Divider */}
+        <div style={{ position: 'absolute', top: dedicato_a ? 1486 : 1456, left: W / 2 - 20, width: 40, height: 2, background: '#D7A86E', opacity: 0.6, display: 'flex' }} />
+
+        {/* Mantra */}
+        <div style={{ position: 'absolute', top: dedicato_a ? 1516 : 1490, left: 110, width: W - 220, display: 'flex', justifyContent: 'center', textAlign: 'center', color: '#FFF6E8', fontSize: 38, fontStyle: 'italic', fontFamily: 'serif', lineHeight: 1.4 }}>
+          « {mantra} »
+        </div>
+
+        {/* Footer (sopra il margine inferiore safe) */}
+        <div style={{ position: 'absolute', bottom: 120, width: W, display: 'flex', justifyContent: 'center', color: '#D7A86E', fontSize: 16, letterSpacing: 10, fontFamily: 'sans-serif' }}>
+          · INDIZI COSMICI ·
+        </div>
+      </div>
+    ),
+    {
+      width: W,
+      height: H,
+      headers: { 'cache-control': 'public, max-age=3600, s-maxage=86400' }
+    }
+  );
+}
+
+async function renderGlifo(opts: {
   nome: string;
   segno: Segno;
   mantra: string;
