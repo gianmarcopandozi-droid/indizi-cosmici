@@ -190,76 +190,91 @@ async function renderSatoriOg(opts: {
           />
         ))}
 
-        {/* Block testo dx */}
+        {/* Testi dx — ogni elemento è un div absolute con display:flex (pattern wallpaper, Satori-safe) */}
         <div
           style={{
             position: 'absolute',
             left: W * 0.42,
-            top: 90,
-            width: W * 0.5,
+            top: 110,
             display: 'flex',
-            flexDirection: 'column',
-            color: '#FFF6E8'
+            fontSize: 14,
+            color: '#D7A86E',
+            letterSpacing: 6,
+            fontFamily: 'sans-serif'
           }}
         >
+          ✦ INDIZI COSMICI ✦
+        </div>
+        <div
+          style={{
+            position: 'absolute',
+            left: W * 0.42,
+            top: 140,
+            display: 'flex',
+            fontSize: 64,
+            fontFamily: 'serif',
+            color: '#FFF6E8',
+            lineHeight: 1.05
+          }}
+        >
+          {nome}
+        </div>
+        <div
+          style={{
+            position: 'absolute',
+            left: W * 0.42,
+            top: 220,
+            display: 'flex',
+            fontSize: 16,
+            color: '#D7A86E',
+            letterSpacing: 5,
+            fontFamily: 'sans-serif'
+          }}
+        >
+          {segnoLabel}
+        </div>
+        {dedicato_a ? (
           <div
             style={{
-              fontSize: 14,
-              color: '#D7A86E',
-              letterSpacing: 6,
-              fontFamily: 'sans-serif',
-              marginBottom: 12
+              position: 'absolute',
+              left: W * 0.42,
+              top: 250,
+              display: 'flex',
+              fontSize: 13,
+              color: '#F1D8C9',
+              letterSpacing: 4,
+              fontFamily: 'sans-serif'
             }}
           >
-            ✦ INDIZI COSMICI ✦
+            DEDICATO A {dedicato_a.toUpperCase()}
           </div>
-          <div
-            style={{
-              fontSize: 64,
-              fontFamily: 'serif',
-              color: '#FFF6E8',
-              lineHeight: 1.05,
-              marginBottom: 8
-            }}
-          >
-            {nome}
-          </div>
-          <div
-            style={{
-              fontSize: 16,
-              color: '#D7A86E',
-              letterSpacing: 5,
-              fontFamily: 'sans-serif',
-              marginBottom: 8
-            }}
-          >
-            {segnoLabel}
-          </div>
-          {dedicato_a ? (
-            <div
-              style={{
-                fontSize: 13,
-                color: '#F1D8C9',
-                letterSpacing: 4,
-                fontFamily: 'sans-serif',
-                marginBottom: 16
-              }}
-            >
-              DEDICATO A {dedicato_a.toUpperCase()}
-            </div>
-          ) : null}
-          <div style={{ width: 30, height: 2, background: '#D7A86E', opacity: 0.6, marginTop: 16, marginBottom: 18 }} />
-          <div
-            style={{
-              fontSize: 28,
-              fontStyle: 'italic',
-              fontFamily: 'serif',
-              color: '#FFF6E8',
-              lineHeight: 1.35
-            }}
-          >
-            « {mantra} »
-          </div>
+        ) : null}
+        <div
+          style={{
+            position: 'absolute',
+            left: W * 0.42,
+            top: dedicato_a ? 290 : 270,
+            width: 30,
+            height: 2,
+            background: '#D7A86E',
+            opacity: 0.6
+          }}
+        />
+        <div
+          style={{
+            position: 'absolute',
+            left: W * 0.42,
+            top: dedicato_a ? 320 : 300,
+            width: W * 0.48,
+            display: 'flex',
+            fontSize: 28,
+            fontStyle: 'italic',
+            fontFamily: 'serif',
+            color: '#FFF6E8',
+            lineHeight: 1.35
+          }}
+        >
+          « {mantra} »
         </div>
 
         {/* Footer */}
