@@ -1,0 +1,300 @@
+<!doctype html>
+<html lang="it">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=1080, height=1920" />
+    <script src="https://cdn.jsdelivr.net/npm/gsap@3.14.2/dist/gsap.min.js"></script>
+    <style>
+      @font-face {
+        font-family: "Cormorant Garamond";
+        src: url("fonts/cormorant-600.ttf") format("truetype");
+        font-weight: 600; font-style: normal;
+      }
+      @font-face {
+        font-family: "Cormorant Garamond";
+        src: url("fonts/cormorant-600i.ttf") format("truetype");
+        font-weight: 600; font-style: italic;
+      }
+      * { margin: 0; padding: 0; box-sizing: border-box; }
+      html, body {
+        margin: 0; width: 1080px; height: 1920px;
+        overflow: hidden; background: #140d26;
+      }
+      body { font-family: "Inter", sans-serif; }
+
+      .scene {
+        position: absolute; inset: 0;
+        width: 1080px; height: 1920px;
+        overflow: hidden;
+        background: #140d26;
+      }
+      .scene-hidden { opacity: 0; }
+      .fill-img {
+        position: absolute; inset: 0;
+        width: 100%; height: 100%;
+        object-fit: cover;
+        will-change: transform;
+      }
+      .radial-bg {
+        position: absolute; inset: 0;
+        background: radial-gradient(ellipse 90% 60% at 50% 30%, #2a1a4a 0%, #140d26 70%);
+      }
+      .big-serif {
+        font-family: "Cormorant Garamond", serif;
+        font-weight: 600;
+        color: #f5efe6;
+        text-align: center;
+      }
+      .gold { color: #e8c88f; }
+      .caption {
+        position: absolute; left: 80px; right: 80px; bottom: 140px;
+        text-align: center;
+        font-family: "Inter", sans-serif;
+        font-size: 48px; line-height: 1.35; font-weight: 600;
+        color: #f5efe6;
+      }
+      .caption .inner {
+        display: inline-block;
+        background: rgba(12, 7, 26, 0.75);
+        border-radius: 24px;
+        padding: 24px 40px;
+      }
+      .caption em {
+        font-family: "Cormorant Garamond", serif;
+        font-style: italic; color: #e8c88f;
+        font-size: 54px;
+      }
+      /* etichetta carosello in alto */
+      .animal-label {
+        position: absolute; top: 110px; left: 0; right: 0;
+        text-align: center;
+      }
+      .animal-label .sign {
+        font-family: "Inter", sans-serif;
+        font-size: 40px; font-weight: 700; letter-spacing: 12px;
+        color: #b9a8d8; text-transform: uppercase;
+        margin-bottom: 10px;
+      }
+      .animal-label .animal {
+        font-family: "Cormorant Garamond", serif;
+        font-weight: 600; font-style: italic;
+        font-size: 120px; color: #e8c88f;
+        text-shadow: 0 4px 40px rgba(0,0,0,0.8);
+      }
+      .device-wrap {
+        position: absolute; inset: 0;
+        display: flex; align-items: center; justify-content: center;
+        padding: 130px 110px 250px;
+      }
+      .device {
+        width: 100%; height: 100%;
+        border-radius: 44px;
+        overflow: hidden;
+        border: 2px solid rgba(232, 200, 143, 0.35);
+        box-shadow: 0 40px 120px rgba(0,0,0,0.6), 0 0 90px rgba(232,200,143,0.12);
+        position: relative;
+      }
+      .device img {
+        position: absolute; inset: 0;
+        width: 100%; height: 100%;
+        object-fit: cover;
+        will-change: transform;
+      }
+      #flash {
+        position: absolute; inset: 0;
+        background: #f5efe6;
+        opacity: 0;
+        z-index: 50;
+        pointer-events: none;
+      }
+      .carousel-img { opacity: 0; }
+      .star-dot { position: absolute; border-radius: 50%; background: #e8c88f; }
+    </style>
+  </head>
+  <body>
+    <div
+      id="root"
+      data-composition-id="main"
+      data-start="0"
+      data-duration="37.5"
+      data-width="1080"
+      data-height="1920"
+    >
+      <!-- ============ AUDIO (track 5): voce unica continua ============ -->
+      <audio id="vo" data-start="0.3" data-track-index="5" data-duration="35.21" src="media/full.mp3"></audio>
+
+      <!-- ============ S1 — HOOK (track 1) ============ -->
+      <div id="s1" class="clip scene" data-start="0" data-duration="5.05" data-track-index="1">
+        <img id="s1-img" class="fill-img" src="media/spirito-guida-elena.png" alt="" style="filter: brightness(0.55);" />
+        <div style="position:absolute; inset:0; display:flex; flex-direction:column; align-items:center; justify-content:center; gap:30px; padding:0 90px;">
+          <div id="s1-w1" class="big-serif" style="font-size:92px;">Questo non è<br />un oroscopo.</div>
+          <div id="s1-w2" style="font-family:'Inter',sans-serif; font-size:52px; font-weight:600; color:#b9a8d8; margin-top:8px;">Non ti dice il futuro…</div>
+          <div id="s1-w3" class="big-serif gold" style="font-size:120px; font-style:italic;">Ti dice chi sei.</div>
+        </div>
+      </div>
+
+      <!-- ============ S2 — CAROSELLO (track 3) ============ -->
+      <div id="s2" class="clip scene scene-hidden" data-start="4.9" data-duration="8.1" data-track-index="3">
+        <img id="cw1" class="fill-img carousel-img" src="media/spirito-guida-elena.png" alt="" />
+        <img id="cw2" class="fill-img carousel-img" src="media/wp-scorpione.png" alt="" />
+        <img id="cw3" class="fill-img carousel-img" src="media/wp-gemelli.png" alt="" />
+        <img id="cw4" class="fill-img carousel-img" src="media/wp-capricorno.png" alt="" />
+        <div class="animal-label" id="cl1" style="opacity:0;"><div class="sign">Ariete</div><div class="animal">L'Aquila</div></div>
+        <div class="animal-label" id="cl2" style="opacity:0;"><div class="sign">Scorpione</div><div class="animal">Il Serpente</div></div>
+        <div class="animal-label" id="cl3" style="opacity:0;"><div class="sign">Gemelli</div><div class="animal">La Volpe</div></div>
+        <div class="animal-label" id="cl4" style="opacity:0;"><div class="sign">Capricorno</div><div class="animal">L'Orso</div></div>
+      </div>
+
+      <!-- ============ S3 — E IL TUO? (track 1) ============ -->
+      <div id="s3" class="clip scene scene-hidden" data-start="12.9" data-duration="2.9" data-track-index="1">
+        <div style="position:absolute; inset:0; background:#0c071a;"></div>
+        <div class="star-dot" style="width:5px; height:5px; left:200px; top:500px; opacity:.6;"></div>
+        <div class="star-dot" style="width:4px; height:4px; left:820px; top:380px; opacity:.5;"></div>
+        <div class="star-dot" style="width:3px; height:3px; left:600px; top:1400px; opacity:.5;"></div>
+        <div style="position:absolute; inset:0; display:flex; align-items:center; justify-content:center;">
+          <div id="s3-txt" style="text-align:center;"><div class="big-serif" style="font-size:150px;">Il tuo…</div><div class="big-serif gold" style="font-size:92px; font-style:italic; margin-top:20px;">forse non è<br />quello che credi.</div></div>
+        </div>
+      </div>
+
+      <!-- ============ S4 — COME (track 3) ============ -->
+      <div id="s4" class="clip scene scene-hidden" data-start="15.65" data-duration="4.45" data-track-index="3">
+        <div class="radial-bg"></div>
+        <div class="device-wrap">
+          <div class="device" id="s4-device">
+            <img id="s4-img" src="media/03-form-compilato.png" alt="" />
+          </div>
+        </div>
+        <div class="caption" id="s4-cap">
+          <span class="inner">Nome, data di nascita, <em id="s4-em" style="display:inline-block;">30 secondi</em>. <span id="s4-kw" style="display:inline-block; font-weight:800;">Gratis.</span></span>
+        </div>
+      </div>
+
+      <!-- ============ S5 — MONEY (track 1) ============ -->
+      <div id="s5" class="clip scene scene-hidden" data-start="19.95" data-duration="4.95" data-track-index="1">
+        <img id="s5-img" class="fill-img" src="media/spirito-guida-elena.png" alt="" style="transform-origin: 50% 62%;" />
+        <div class="caption" id="s5-cap" style="bottom: 110px;">
+          <span class="inner">Il tuo cielo. Il tuo animale.<br /><em id="s5-em" style="display:inline-block;">Una frase che ti guarda dritta.</em></span>
+        </div>
+      </div>
+
+      <!-- ============ S6 — DEDICA (track 3) ============ -->
+      <div id="s6" class="clip scene scene-hidden" data-start="24.75" data-duration="3.75" data-track-index="3">
+        <img id="s6-img" class="fill-img" src="media/wp-leone.png" alt="" style="filter: blur(12px) brightness(0.4);" />
+        <div style="position:absolute; inset:0; display:flex; align-items:center; justify-content:center; padding:0 100px;">
+          <div id="s6-txt" class="big-serif" style="font-size:84px;">E quando lo dedichi<br />a qualcuno,<br />gli stai dicendo:<br /><span id="s6-kw" class="gold" style="font-style:italic; display:inline-block; font-size:130px; margin-top:14px;">ti vedo.</span></div>
+        </div>
+      </div>
+
+      <!-- ============ S7 — CLAIM (track 1) ============ -->
+      <div id="s7" class="clip scene scene-hidden" data-start="28.35" data-duration="3.7" data-track-index="1">
+        <div style="position:absolute; inset:0; background: radial-gradient(ellipse 80% 55% at 50% 45%, #241540 0%, #0c071a 75%);"></div>
+        <div style="position:absolute; inset:0; display:flex; flex-direction:column; align-items:center; justify-content:center; gap:30px; padding:0 100px;">
+          <div id="s7-line1" class="big-serif" style="font-size:112px;">Non è magia.</div>
+          <div id="s7-line2" class="big-serif gold" style="font-size:122px; font-style:italic;">È attenzione.</div>
+        </div>
+      </div>
+
+      <!-- ============ S8 — CTA (track 3) ============ -->
+      <div id="s8" class="clip scene scene-hidden" data-start="31.9" data-duration="5.6" data-track-index="3">
+        <img id="s8-img" class="fill-img" src="media/spirito-guida-elena.png" alt="" style="filter: blur(14px) brightness(0.4);" />
+        <div style="position:absolute; inset:0; display:flex; flex-direction:column; align-items:center; justify-content:center; gap:44px; padding:0 100px;">
+          <div id="s8-line1" style="font-family:'Inter',sans-serif; font-size:46px; font-weight:700; letter-spacing:10px; color:#b9a8d8;">GRATIS · LINK IN BIO</div>
+          <div id="s8-line2" class="big-serif" style="font-size:96px;">Scrivi il tuo <span class="gold" style="font-style:italic;">segno</span><br />nei commenti.</div>
+          <div id="s8-pill" style="font-family:'Inter',sans-serif; font-size:44px; font-weight:700; color:#140d26; background:#e8c88f; border-radius:999px; padding:28px 58px;">indizicosmici.it</div>
+        </div>
+      </div>
+
+      <!-- flash overlay globale (non clip) -->
+      <div id="flash"></div>
+    </div>
+
+    <script>
+      window.__timelines = window.__timelines || {};
+      const tl = gsap.timeline({ paused: true });
+
+      const FLASH_TIMES = [4.9, 12.9, 15.65, 19.95, 24.75, 28.35, 31.9];
+      for (const t of FLASH_TIMES) {
+        tl.fromTo("#flash", { opacity: 0 }, { opacity: 0.85, duration: 0.06, ease: "power1.in" }, t - 0.06);
+        tl.to("#flash", { opacity: 0, duration: 0.14, ease: "power2.out" }, t);
+      }
+
+      /* ---- S1 HOOK (voce 0.3-5.0) ---- */
+      tl.fromTo("#s1-img", { scale: 1.25 }, { scale: 1.1, duration: 5.05, ease: "none" }, 0);
+      tl.from("#s1-w1", { opacity: 0, y: 70, duration: 0.4, ease: "back.out(1.6)" }, 0.25);
+      tl.from("#s1-w2", { opacity: 0, y: 40, duration: 0.35, ease: "power3.out" }, 2.0);
+      tl.from("#s1-w3", { opacity: 0, scale: 0.7, duration: 0.45, ease: "back.out(1.8)" }, 3.6);
+      tl.to("#s1-w3", { scale: 1.07, duration: 0.18, ease: "power2.out" }, 4.15);
+      tl.to("#s1-w3", { scale: 1.0, duration: 0.3, ease: "back.out(2.5)" }, 4.33);
+
+      /* ---- S2 CAROSELLO: cut sui segni (word-timestamps) ---- */
+      tl.fromTo("#s2", { opacity: 0 }, { opacity: 1, duration: 0.15, ease: "power1.out" }, 4.9);
+      const CARO = [
+        { img: "#cw1", label: "#cl1", t: 4.9 },
+        { img: "#cw2", label: "#cl2", t: 6.85 },
+        { img: "#cw3", label: "#cl3", t: 8.95 },
+        { img: "#cw4", label: "#cl4", t: 11.05 },
+      ];
+      for (let i = 0; i < CARO.length; i++) {
+        const c = CARO[i];
+        const end = i < CARO.length - 1 ? CARO[i + 1].t : 13.0;
+        tl.set(c.img, { opacity: 1 }, c.t);
+        tl.fromTo(c.img, { scale: 1.22 }, { scale: 1.05, duration: 0.45, ease: "expo.out" }, c.t);
+        tl.to(c.img, { scale: 1.0, duration: end - c.t - 0.45, ease: "none" }, c.t + 0.45);
+        tl.fromTo(c.label, { opacity: 0, y: -46, scale: 0.85 }, { opacity: 1, y: 0, scale: 1, duration: 0.32, ease: "back.out(1.7)" }, c.t + 0.08);
+        if (i < CARO.length - 1) {
+          tl.set(c.img, { opacity: 0 }, end);
+          tl.set(c.label, { opacity: 0 }, end);
+          tl.fromTo("#flash", { opacity: 0 }, { opacity: 0.7, duration: 0.05, ease: "power1.in" }, end - 0.05);
+          tl.to("#flash", { opacity: 0, duration: 0.12, ease: "power2.out" }, end);
+        }
+      }
+
+      /* ---- S3 GAP (voce 13.08-15.66) ---- */
+      tl.fromTo("#s3", { opacity: 0 }, { opacity: 1, duration: 0.1 }, 12.9);
+      tl.from("#s3-txt", { scale: 0.6, opacity: 0, duration: 0.4, ease: "back.out(1.8)" }, 13.0);
+      tl.to("#s3-txt", { scale: 1.04, duration: 2.2, ease: "sine.inOut" }, 13.5);
+
+      /* ---- S4 COME (voce 15.66-19.92) ---- */
+      tl.fromTo("#s4", { opacity: 0 }, { opacity: 1, duration: 0.12 }, 15.65);
+      tl.from("#s4-device", { scale: 0.92, y: 80, duration: 0.45, ease: "expo.out" }, 15.7);
+      tl.fromTo("#s4-img", { y: -30, scale: 1.1 }, { y: 14, scale: 1.02, duration: 4.1, ease: "none" }, 15.8);
+      tl.from("#s4-cap", { opacity: 0, y: 44, duration: 0.35, ease: "power3.out" }, 15.85);
+      tl.to("#s4-em", { scale: 1.14, color: "#f5d9a8", duration: 0.16, ease: "power2.out" }, 17.5);
+      tl.to("#s4-em", { scale: 1.0, duration: 0.28, ease: "back.out(2.5)" }, 17.66);
+      tl.to("#s4-kw", { scale: 1.18, color: "#e8c88f", duration: 0.18, ease: "power2.out" }, 18.95);
+      tl.to("#s4-kw", { scale: 1.0, duration: 0.3, ease: "back.out(2.5)" }, 19.13);
+
+      /* ---- S5 MONEY (voce 19.92-24.7) ---- */
+      tl.fromTo("#s5", { opacity: 0 }, { opacity: 1, duration: 0.12 }, 19.95);
+      tl.fromTo("#s5-img", { scale: 1.35 }, { scale: 1.12, duration: 0.5, ease: "expo.out" }, 19.95);
+      tl.to("#s5-img", { scale: 1.03, duration: 4.4, ease: "none" }, 20.45);
+      tl.from("#s5-cap", { opacity: 0, y: 46, duration: 0.4, ease: "power3.out" }, 20.3);
+      tl.to("#s5-em", { scale: 1.07, duration: 0.2, ease: "power2.out" }, 22.5);
+      tl.to("#s5-em", { scale: 1.0, duration: 0.32, ease: "back.out(2)" }, 22.7);
+
+      /* ---- S6 DEDICA "ti vedo" (voce 24.7-28.3) ---- */
+      tl.fromTo("#s6", { opacity: 0 }, { opacity: 1, duration: 0.12 }, 24.75);
+      tl.from("#s6-txt", { opacity: 0, y: 56, duration: 0.45, ease: "power3.out" }, 24.85);
+      tl.from("#s6-kw", { opacity: 0, scale: 0.6, duration: 0.4, ease: "back.out(1.9)" }, 27.6);
+      tl.to("#s6-kw", { scale: 1.1, textShadow: "0 0 50px rgba(232,200,143,0.5)", duration: 0.18, ease: "power2.out" }, 28.05);
+      tl.to("#s6-kw", { scale: 1.0, textShadow: "0 0 0px rgba(232,200,143,0)", duration: 0.3, ease: "back.out(2)" }, 28.23);
+
+      /* ---- S7 CLAIM (voce 28.3-31.88) ---- */
+      tl.fromTo("#s7", { opacity: 0 }, { opacity: 1, duration: 0.12 }, 28.35);
+      tl.from("#s7-line1", { opacity: 0, y: 40, duration: 0.35, ease: "power3.out" }, 28.45);
+      tl.from("#s7-line2", { opacity: 0, scale: 0.85, duration: 0.4, ease: "back.out(1.6)" }, 30.25);
+      tl.to("#s7-line2", { scale: 1.08, textShadow: "0 0 60px rgba(232,200,143,0.55)", duration: 0.18, ease: "power2.out" }, 30.85);
+      tl.to("#s7-line2", { scale: 1.0, textShadow: "0 0 0px rgba(232,200,143,0)", duration: 0.32, ease: "back.out(2)" }, 31.03);
+
+      /* ---- S8 CTA (voce 31.9-35.04) ---- */
+      tl.fromTo("#s8", { opacity: 0 }, { opacity: 1, duration: 0.15 }, 31.9);
+      tl.from("#s8-line1", { opacity: 0, y: 30, duration: 0.3, ease: "power2.out" }, 32.05);
+      tl.from("#s8-line2", { opacity: 0, y: 46, duration: 0.4, ease: "power3.out" }, 33.3);
+      tl.from("#s8-pill", { opacity: 0, scale: 0.85, duration: 0.35, ease: "back.out(1.6)" }, 32.4);
+      tl.to("#s8-pill", { scale: 1.07, duration: 0.22, ease: "sine.inOut", repeat: 3, yoyo: true }, 35.3);
+      tl.to("#s8", { opacity: 0, duration: 0.7, ease: "power2.inOut" }, 36.7);
+
+      window.__timelines["main"] = tl;
+    </script>
+  </body>
+</html>
