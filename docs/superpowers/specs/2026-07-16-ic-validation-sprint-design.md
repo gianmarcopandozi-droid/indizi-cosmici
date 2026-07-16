@@ -103,8 +103,12 @@ giuridiche diverse (GDPR)** e **non retroattive**: ogni email raccolta senza il 
   dedicato, categorie/identità dei partner quando note, informativa aggiornata, meccanismo di revoca.
 - **Decisione Gianmarco: ENTRAMBI (A + B).** Essendo finalità GDPR diverse, servono **2 consensi
   granulari** (o 1 checkbox con informativa che copre esplicitamente entrambe le finalità: offerte
-  inviate da IC *e* condivisione con partner terzi autonomi). Wording + informativa vanno **validati
-  legalmente PRIMA del deploy** — qui è solo bozza tecnica. Il gate-lista §3.1 conta il consenso terzi.
+  inviate da IC *e* condivisione con partner terzi autonomi). Il gate-lista §3.1 conta il consenso terzi.
+- **Come produciamo il wording (decisione Gianmarco):** (1) **web research prima** (WebSearch/WebFetch
+  su best-practice GDPR consenso marketing-terzi + affitto lista/CPL, esempi di consensi granulari,
+  contesto IT/UE); (2) **Apify solo** per info che il web normale non estrae; (3) **draft bozza**;
+  (4) **validazione da un legale PRIMA del deploy** (Gianmarco). Claude produce solo bozza documentata
+  dalle fonti — NON è consulenza legale; il gate finale è il legale.
 
 **5.1.b — Lista file/code da toccare (non "campo + payload"):**
 - `components/Form.tsx` — nuovo checkbox opzionale (non pre-spuntato, non obbligatorio).
