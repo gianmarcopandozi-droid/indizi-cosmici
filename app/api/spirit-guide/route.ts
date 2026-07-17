@@ -21,6 +21,7 @@ const BodySchema = z.object({
   nome: z.string().trim().min(1).max(50),
   giorno_nascita: z.number().int().min(1).max(31),
   mese_nascita: z.number().int().min(1).max(12),
+  anno_nascita: z.number().int().min(1900).max(2026),
   email: z.string().email().max(200),
   opt_in_newsletter: z.boolean(),
   dedicato_a: z.string().trim().max(50).optional(),
@@ -78,6 +79,7 @@ export async function POST(req: Request) {
       nome: data.nome,
       giorno_nascita: data.giorno_nascita,
       mese_nascita: data.mese_nascita,
+      anno_nascita: data.anno_nascita,
       segno,
       source: data.source ?? 'direct',
       opt_in_newsletter: data.opt_in_newsletter

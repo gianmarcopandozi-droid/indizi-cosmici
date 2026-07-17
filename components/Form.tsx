@@ -17,6 +17,7 @@ type FieldErrors = {
   dedicato_a?: string;
   giorno?: string;
   mese?: string;
+  anno?: string;
   email?: string;
   consent?: string;
 };
@@ -24,6 +25,7 @@ type FieldErrors = {
 const EMAIL_RE = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
 const GIORNI = Array.from({ length: 31 }, (_, i) => i + 1);
 const MESI = Array.from({ length: 12 }, (_, i) => i + 1);
+const ANNI = Array.from({ length: 96 }, (_, i) => 2025 - i);
 
 const inputClass =
   'w-full rounded-lg border border-oro-caldo/30 bg-white/5 px-4 py-3 text-panna-stellare placeholder:text-rosa-polvere/60 focus:outline-none focus:ring-1 focus:ring-oro-caldo/60';
@@ -53,6 +55,7 @@ export default function Form({
   const [dedicatoA, setDedicatoA] = useState(defaultDedicatoA);
   const [giorno, setGiorno] = useState<number | ''>('');
   const [mese, setMese] = useState<number | ''>('');
+  const [anno, setAnno] = useState<number | ''>('');
   const [email, setEmail] = useState('');
   const [consentDownload, setConsentDownload] = useState(false);
   const [optInNewsletter, setOptInNewsletter] = useState(false);
@@ -71,6 +74,7 @@ export default function Form({
     }
     if (!giorno) e.giorno = 'Seleziona il giorno';
     if (!mese) e.mese = 'Seleziona il mese';
+    if (!anno) e.anno = 'Seleziona l\'anno';
     if (!email.trim()) e.email = 'Inserisci la tua email';
     else if (!EMAIL_RE.test(email.trim())) e.email = 'Email non valida';
     if (!consentDownload)
@@ -91,6 +95,7 @@ export default function Form({
         nome: nome.trim(),
         giorno_nascita: Number(giorno),
         mese_nascita: Number(mese),
+        anno_nascita: Number(anno),
         email: email.trim().toLowerCase(),
         opt_in_newsletter: optInNewsletter,
         source,
@@ -163,7 +168,7 @@ export default function Form({
         ) : null}
       </div>
 
-      <div className="mb-5 grid grid-cols-2 gap-4">
+      <div className="mb-5 grid grid-cols-3 gap-4">
         <div>
           <label htmlFor="giorno" className={labelClass} style={labelStyle}>
             Giorno
@@ -214,6 +219,32 @@ export default function Form({
           </select>
           {errors.mese ? (
             <p className="mt-2 text-sm text-red-300">{errors.mese}</p>
+          ) : null}
+        </div>
+        <div>
+          <label htmlFor="anno" className={labelClass} style={labelStyle}>
+            Anno
+          </label>
+          <select
+            id="anno"
+            value={anno}
+            onChange={(e) =>
+              setAnno(e.target.value === '' ? '' : Number(e.target.value))
+            }
+            className={inputClass}
+            required
+          >
+            <option value="" disabled>
+              --
+            </option>
+            {ANNI.map((a) => (
+              <option key={a} value={a}>
+                {a}
+              </option>
+            ))}
+          </select>
+          {errors.anno ? (
+            <p className="mt-2 text-sm text-red-300">{errors.anno}</p>
           ) : null}
         </div>
       </div>
