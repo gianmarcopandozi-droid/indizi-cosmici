@@ -54,6 +54,23 @@ La meccanica identitaria per segno che avevamo scelto ("Il tuo segno? Scrivilo s
 - **Valutare anche il formato statico/carosello lista** ("cosa porta ogni segno…") come
   affiancamento a basso costo: nella nicchia È il formato che scala di più.
 
+## Conferma 17/07 (credito fresco, batch faceless — ~$0.20)
+
+Scrape di conferma su pagine faceless trovate via user-search Apify (+ web research):
+
+1. **@moyra.community (65k foll, 30/30 reel) — IL caso da manuale.** Breakout da **13.29M plays**
+   con un reel da **23.8s, 0 hashtag**, hook emotivo-identitario: *"Tu futuro no siempre llega como
+   una gran señal."* — praticamente un hook IC. Gli altri loro reel (9 hashtag, hook descrittivi):
+   ~3k plays. **La ricetta v1 è confermata al millimetro** (corto + 0 hashtag + hook identitario).
+   In più: hanno **ripubblicato lo stesso reel vincitore in PT** (51k e 19k) → winner-reposting
+   praticato nel mondo reale, come da intuizione di Gianmarco.
+2. **Un account da 65k può fare 13M plays** → il breakout non richiede una base follower grande.
+   Ottima notizia per il cold-start IC (ma resta un outlier: soglia gg7 comunque da baseline).
+3. **@zodiacsignslovers (108k): 22/22 post statici** → seconda conferma (dopo glossy_zodiac) che
+   le pagine faceless a scala usano meme statici identitari. Il binario "carosello lista" resta caldo.
+4. **Nota strategica:** moyra.community è la funnel-page di un'app di astrologia — l'analogo più
+   vicino al modello IC (contenuto → funnel prodotto). Da studiare come benchmark, non copiare.
+
 ## Prossimi passi
 1. writing-plans → piano esecutivo Fase 1 (base 20-25s + consenso granulare + cattura semi-manuale).
 2. Domani (reset credito Apify a $5): eventuale approfondimento su 2-3 account faceless che fanno
