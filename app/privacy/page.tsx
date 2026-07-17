@@ -50,7 +50,7 @@ export default function PrivacyPage() {
             <ul className="list-disc pl-6 space-y-1">
               <li>Nome</li>
               <li>Email</li>
-              <li>Giorno e mese di nascita (senza anno)</li>
+              <li>Data di nascita (giorno, mese e anno) — usata per calcolare il tuo segno zodiacale e personalizzare i contenuti</li>
               <li>Hash dell&apos;indirizzo IP (sha256, mai conservato in chiaro)</li>
               <li>User agent del browser</li>
               <li>Eventuale nome di una persona dedicataria</li>

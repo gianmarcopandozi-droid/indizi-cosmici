@@ -17,7 +17,7 @@ Gianmarco Pandozi (privato, progetto creativo personale). Contatto: ciao@indizic
 
 - Nome
 - Email
-- Giorno e mese di nascita (senza anno)
+- Data di nascita (giorno, mese e anno) — usata per calcolare il tuo segno zodiacale e personalizzare i contenuti
 - Hash dell'indirizzo IP (sha256, mai conservato in chiaro)
 - User agent del browser
 - Eventuale nome di una persona dedicataria
