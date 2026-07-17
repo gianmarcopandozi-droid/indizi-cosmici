@@ -233,6 +233,18 @@ Giorno 30       : valuta go/no-go [§3] → GO = scrivi playbook v1 [§2] + Visi
 
 ---
 
+## 8-bis. PIVOT 17/07 (decisione Gianmarco — supera §5.1 per questo sprint)
+
+**Consensi al minimo indispensabile finché non c'è traffico minimo.** I 2 consensi marketing granulari
+(A+B) NON vanno in produzione ora: il lavoro (API+Form+Privacy+Admin+migration+bozza legale, review
+pulite) è **parcheggiato sul branch `feat/consenso-granulare-parcheggiato`** del repo IC, pronto quando
+i volumi lo giustificheranno. Motivazioni: (1) a traffico ~zero la macchina legale è prematura;
+(2) **le promo commerciali gireranno su un dominio separato di proprietà di Gianmarco** con iscrizione
+diretta (opt-in nativo lì) → IC resta brand pulito e il problema consenso-cessione si sposta dove nasce.
+**Resta nel funnel IC:** privacy/download + newsletter (stato attuale) + **anno di nascita** (nuovo campo,
+dato utile per segmentazione futura) + fix fattuale privacy Resend→Brevo.
+**Obiettivo unico dello sprint: 30 giorni di contenuti + raccolta contatti. Poi si valuta.**
+
 ## 9. Backlog differito (registrato, NON in questo sprint)
 
 - **VisitLenola**: sito "figo" secondo ispirazioni (progetto 2, a metodo validato).
