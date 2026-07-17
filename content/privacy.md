@@ -1,12 +1,12 @@
 ---
 title: Privacy Policy
-updated: 2026-05-14
+updated: 2026-07-17
 version: v1-2026-05-14
 ---
 
 # Privacy Policy
 
-**Ultimo aggiornamento:** 14 maggio 2026
+**Ultimo aggiornamento:** 17 luglio 2026
 **Versione:** v1-2026-05-14
 
 ## 1. Titolare del trattamento
@@ -41,7 +41,7 @@ Conserveremo i tuoi dati per 24 mesi dall'ultimo opt-in o dall'ultima interazion
 Utilizziamo questi servizi di terze parti:
 
 - Supabase (database) — server in Unione Europea
-- Resend (email transazionale) — server negli Stati Uniti, conforme Standard Contractual Clauses (SCC)
+- Brevo (email transazionale) — server in Unione Europea, conforme GDPR
 - Vercel (hosting) — CDN globale, conforme SCC
 - Plausible (analytics, eventuale) — server in Unione Europea, analytics senza cookie e senza profilazione pubblicitaria
 

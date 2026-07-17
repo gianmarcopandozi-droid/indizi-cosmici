@@ -19,7 +19,7 @@ export default function PrivacyPage() {
             Privacy Policy
           </h1>
           <p className="font-body text-base text-rosa-polvere">
-            Ultimo aggiornamento: 14 maggio 2026
+            Ultimo aggiornamento: 17 luglio 2026
           </p>
           <p className="font-body text-sm text-rosa-polvere/80 mt-1">
             Versione: v1-2026-05-14
@@ -107,8 +107,8 @@ export default function PrivacyPage() {
             <ul className="list-disc pl-6 space-y-1">
               <li>Supabase (database) — server in Unione Europea</li>
               <li>
-                Resend (email transazionale) — server negli Stati Uniti, conforme
-                Standard Contractual Clauses (SCC)
+                Brevo (email transazionale) — server in Unione Europea, conforme
+                GDPR
               </li>
               <li>Vercel (hosting) — CDN globale, conforme SCC</li>
               <li>
